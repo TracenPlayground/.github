@@ -1,30 +1,53 @@
 # Tracen Playgrounds: Device Tree Guidelines
 
 **Lead Devs:** @rthedream · @rexix01 · @naokoshoto
-
 **Updated:** August 6, 2026
 
-These guidelines exist to maintain architectural stability, protect end-user security, and streamline debugging across all releases. The key words **MUST**, **MUST NOT**, **REQUIRED**, **SHALL**, **SHALL NOT**, **SHOULD**, **SHOULD NOT**, **RECOMMENDED**, **MAY**, and **OPTIONAL** follow RFC 2119. Unclear cases **MUST** be raised with the leads before compiling.
+These guidelines exist to maintain architectural stability, protect end-user security, and streamline debugging across all releases. The key words **MUST**, **MUST NOT**, **REQUIRED**, **SHALL**, **SHALL NOT**, **SHOULD**, **SHOULD NOT**, **RECOMMENDED**, **MAY**, and **OPTIONAL** are to be interpreted as described in RFC 2119, and are used consistently throughout. Unclear cases **MUST** be raised with the leads before compiling.
 
 ---
 
 ## Global Rules
 
-- You **MUST** own the physical device you build or port for. Blind building/porting is prohibited. Trusted Developers **MAY** be exempt from ownership but **MUST NOT** build blind (see Trusted Developer Policy).
-- You **MUST** credit upstream sources and lead developers in release notes, and **SHOULD** credit individual helpers.
+- You **MUST** own the physical device you build or port for.
+- Blind building or porting is strictly prohibited.
+- Trusted Developers **MAY** be exempt from ownership, but **MUST NOT** build or port blindly (see Trusted Developer Policy).
+- You **MUST** credit upstream sources and lead developers in release notes.
+- You **SHOULD** also credit individual helpers where applicable.
 - You **MUST** fully understand any AI-assisted code you submit, well enough to read, explain, and debug it (see AI Code Policy).
-- You **MUST NOT** direct personal attacks or bad-faith mockery at leads, builders, or Trusted Developers. Substantive, specific criticism of decisions or conduct is permitted; disagreement alone is not a violation. Demeaning public comparisons of your work to others' are prohibited. Neutral factual comparisons are fine. If provoked publicly over project matters, de-escalate and redirect to facts.
-- **Community channels** *(advisory only)*: an independent channel **SHOULD NOT** present itself as *the official* Beryl/Citrine community. A jointly-formed, lead-acknowledged "alliance" channel is fine, as are regional/language groups that don't claim sole official status. Violating this alone is not grounds for removal.
-- **Monetization**: disclose any donations/sponsorships/personal funding in release notes. A clearly-labeled personal tip jar is fine; gating features, updates, or support behind payment is not. Misrepresenting where donations go is grounds for immediate removal and may count toward blacklisting.
+
+**Conduct**
+- You **MUST NOT** direct personal attacks or bad-faith mockery at leads, builders, porters, or Trusted Developers.
+- Substantive, specific criticism of decisions or conduct **IS** permitted.
+- Disagreement alone **IS NOT** a violation of this rule.
+- You **MUST NOT** publicly compare your work to a lead's or another builder's work in a way intended to demean rather than inform.
+- Neutral, factual comparisons remain permitted.
+- If provoked publicly over project matters, you **SHOULD** de-escalate and redirect to facts.
+- See Conduct Enforcement for how violations of this section are applied in community channels.
+
+**Community channels** *(advisory — non-enforcing)*
+- An independent channel **SHOULD NOT** present itself as *the official* Beryl/Citrine community.
+- A jointly-formed, lead-acknowledged "alliance" channel **IS** permitted.
+- Regional or language-specific groups **REMAIN** permitted, provided they don't claim sole official status.
+- Violating this section alone **SHALL NOT** be grounds for removal.
+
+**Monetization**
+- You **MUST** disclose any donations, sponsorships, or personal funding in release notes.
+- A clearly-labeled personal tip jar **IS** permitted.
+- Gating features, updates, or support behind payment **IS NOT** permitted, personal or otherwise.
+- Misrepresenting where donations go is grounds for immediate removal and **MAY** count toward blacklist consideration.
 
 ---
 
 ## Licensing
 
-- Kernel repos **MUST** stay GPLv2 (inherited from upstream Linux), with no relicensing or stripping of notices.
-- Device tree / build script / config repos **MUST** ship an Apache 2.0 `LICENSE` file; missing it means non-compliance regardless of public visibility.
-- Vendor blob directories **MUST** include a `PROPRIETARY-FILES.txt` (or equivalent) and **MUST NOT** be presented as open-source.
-- AI-assisted contributions are only validly licensed if the human-authored portion is original and copyright-eligible (see AI Code Policy).
+- Kernel repositories **MUST** remain licensed GPLv2, inherited from upstream Linux.
+- Kernel repositories **MUST NOT** be relicensed or have their notices stripped.
+- Device tree, build script, and configuration repositories **MUST** ship an Apache License 2.0 `LICENSE` file.
+- A repository missing this file is **NOT** in compliance, regardless of public visibility.
+- Vendor blob directories **MUST** include a `PROPRIETARY-FILES.txt` (or equivalent notice).
+- Vendor blobs **MUST NOT** be presented as open-source content.
+- AI-assisted contributions **MUST** have a human-authored, copyright-eligible portion to be validly licensed (see AI Code Policy).
 
 ---
 
@@ -32,9 +55,11 @@ These guidelines exist to maintain architectural stability, protect end-user sec
 
 *(Referenced by Recovery Policy, Kernel Policy, Root Policy, ROM Builders, and OEM Porters below.)*
 
-**"Shipped" means any build distributed outside private internal testing or the Trusted Developer testing pool.** This includes canary/unofficial-testing channels. A build only escapes this Baseline while it stays entirely private.
-
-Every shipped build, whether ROM or port, canary or stable, rooted or not, **MUST** be `user`/`userdebug`, signed with private release keys, SELinux Enforcing, and verified-boot compliant. Unsigned or permissive builds **MUST NOT** be shipped. No allowance elsewhere in this document (alternate kernels, root support, canary status, porting exceptions, etc.) may be used to relax this baseline.
+- "Shipped" **MEANS** any build distributed outside private internal testing or the Trusted Developer testing pool — this includes canary/unofficial-testing channels.
+- A build **ONLY** escapes this Baseline while it stays entirely private.
+- Every shipped build **MUST** be `user`/`userdebug`, signed with private release keys, SELinux Enforcing, and verified-boot compliant.
+- Unsigned or permissive builds **MUST NOT** be shipped.
+- No allowance elsewhere in this document (alternate kernels, root support, canary status, porting exceptions, etc.) **MAY** be used to relax this Baseline.
 
 ---
 
@@ -42,10 +67,10 @@ Every shipped build, whether ROM or port, canary or stable, rooted or not, **MUS
 
 *Applies to ROM Builders.*
 
-- Ship AOSP/LineageOS recovery by default.
-- Custom recoveries (TWRP, OrangeFox, etc.) are **NOT RECOMMENDED**. On modern Virtual A/B devices they break delta OTAs, corrupt hash validation, and raise hard-brick risk. This is a structural consequence of how seamless updates and dm-verity/AVB interact on current partition layouts, not a project-specific preference.[^1]
-- Exceptions require explicit lead approval and a proven OTA-survival method.
-- Any exception is still bound by the Security Baseline.
+- You **MUST** ship AOSP/LineageOS recovery by default.
+- Custom recoveries (TWRP, OrangeFox, etc.) are **NOT RECOMMENDED**. On modern Virtual A/B devices they break delta OTAs, corrupt hash validation, and raise hard-brick risk — a structural consequence of how seamless updates and dm-verity/AVB interact on current partition layouts, not a project-specific preference.[^1]
+- Exceptions **REQUIRE** explicit lead approval and a proven OTA-survival method.
+- Any exception **MUST** still meet the Security Baseline.
 
 ---
 
@@ -53,9 +78,11 @@ Every shipped build, whether ROM or port, canary or stable, rooted or not, **MUS
 
 *Applies to ROM Builders and OEM Porters.*
 
-- Ship the tree/OEM-provided kernel by default (**SHOULD**, not absolute). A non-root alternate kernel **MAY** be offered alongside it, with its source disclosed in release notes.
-- Issues that only reproduce on an alternate kernel **MAY** get limited or no support from leads.
-- Alternate kernels are still bound by the Security Baseline.
+- Builders/porters **SHOULD** ship the tree/OEM-provided kernel by default. This is a **RECOMMENDATION**, not an absolute rule.
+- A non-root alternate kernel **MAY** be offered alongside it.
+- Any alternate kernel's source **MUST** be disclosed in release notes.
+- Issues that only reproduce on an alternate kernel **MAY** receive limited or no support from the leads.
+- Alternate kernels **MUST** still meet the Security Baseline.
 
 ---
 
@@ -63,33 +90,68 @@ Every shipped build, whether ROM or port, canary or stable, rooted or not, **MUS
 
 *Applies to ROM Builders and OEM Porters.*
 
-- "Pre-rooted" means root granted automatically, out of the box. Pre-rooted builds **MUST NOT** ship, on either AOSP builds or ports.
-- AOSP/LineageOS builds **MUST NOT** officially integrate a root framework (KernelSU, Magisk, APatch, or equivalents) into the shipped kernel/boot image. Users **MAY** self-root via their own tooling. That's not a violation, and it's entirely at the user's own risk; builders **MAY** decline to support issues caused or worsened by it. If an issue also reproduces with root disabled, it's a normal ROM issue (see Bug Report Policy).
-- OEM ports **MAY** ship an integrated root framework, but it **MUST** be optional (normal operation doesn't depend on it) and **MUST** require explicit user action to enable. This exception exists because OEM ports operate outside the OEM's own warranty and support chain by definition. The trust and update-cadence assumptions an AOSP build makes to its users don't carry over, so gating root behind explicit user action is judged sufficient where it wouldn't be for an official AOSP release.
-- Any root-capable image is still bound by the Security Baseline. Root support never justifies relaxing it. In practice this means root-capable images use a re-signed or user-owned root of trust (e.g. a user-generated AVB key) rather than the OEM's stock signing chain; "root-capable" and "verified boot intact" are not in tension as long as *some* verified chain of trust is preserved and enforced.
-- Note: Play Integrity's strongest attestation will fail once root is actually activated. Expected, not a defect.
+- "Pre-rooted" **MEANS** root granted automatically, without user action, out of the box.
+- Pre-rooted builds **MUST NOT** ship, on either AOSP builds or ports.
+- AOSP/LineageOS-based ROM builds **MUST NOT** officially integrate a root framework (KernelSU, Magisk, APatch, or equivalents) into the shipped kernel or boot image, in any variant.
+- Users **MAY** self-root an AOSP/LineageOS-based build using their own tooling.
+- Self-rooting this way **IS NOT** a policy violation.
+- A self-rooted AOSP build is used entirely at the user's own risk.
+- Builders **MAY** decline to support issues caused or worsened by self-applied root.
+- If an issue also reproduces with root disabled, it **MUST** be treated as a normal ROM issue regardless of root status (see Bug Report / Logcat Policy).
+- OEM ports **MAY** ship an integrated root framework.
+- Root integration on a port **MUST** be optional: normal operation **MUST NOT** depend on it.
+- Enabling root on a port **MUST** require explicit user action.
+- Any root-capable image **MUST** still meet the Security Baseline. In practice this means using a re-signed or user-owned root of trust (e.g., a user-generated AVB key) rather than the OEM's stock signing chain — "root-capable" and "verified boot intact" are not in tension as long as some verified chain of trust is preserved and enforced.
+- Root support **MUST NOT** be used to justify relaxing the Security Baseline.
+
+**Why AOSP builds and ports are treated differently**
+- This is **NOT** a warranty distinction — any custom ROM, AOSP build or port, voids the OEM warranty equally.
+- It is also **NOT** a Play Integrity distinction in the way the original rule implied: any device with an unlocked bootloader running a custom ROM — rooted or not — already fails Play Integrity's **Device** and **Strong** Integrity tiers. That happens the moment you flash a non-stock OS, independent of root.
+- The actual distinction: AOSP/LineageOS-based builds are this project's primary, widest-reach release. Keeping them free of integrated root maximizes the odds of clearing Play Integrity's **Basic** Integrity tier — the lowest tier, and the one most non-banking apps actually check — for that broader, often less technical audience by default.
+- Ports serve a narrower, more technical audience, where that default matters less.
+- Builders/porters **SHOULD** note in release notes that Play Integrity's stronger tiers will not pass on any custom build, rooted or not, once the bootloader is unlocked — this is a property of running a custom ROM at all, not a defect specific to root.
 
 ---
 
 ## ROM Builders
 
-- Recovery choices follow the Recovery Policy above.
+- Recovery choices **MUST** follow the Recovery Policy above.
 - Builds **MUST** meet the Security Baseline.
-- Don't modify kernel/base trees beyond what compiling requires (alternate-kernel allowance excepted). Genuinely necessary fundamental changes need lead discussion and a PR first.
-- Maintain no more than 3 active ROMs at once, and don't duplicate a ROM another project builder already actively maintains. Leads **MAY** grant a documented exception above 3 ROMs where a builder demonstrates the infrastructure (CI/CD, automated testing, sustained monthly update cadence) to support it. This is a discretionary, revocable exception, not a rule change; the default cap remains 3.
-- Notify leads before dropping a project. Switching ROMs isn't permitted except when your current ROM gets an official maintainer elsewhere, or upstream breaks core functionality.
-- **Release coordination**: coordinate major version/QPR timing with leads and other builders on the same ROM. This prevents overlapping releases, not personal vetoes. Leads mediate unresolved conflicts; unresolved cases default to first-ready-first-released unless there's a documented technical reason to delay.
-- **Abandonment**: a ROM with no update, security patch, or lead communication for 60 consecutive days is considered abandoned. Leads **MUST** attempt to contact the builder before delisting; if unreachable or unresponsive after that attempt, the ROM **MUST** be pulled from official channels and marked discontinued.
+- You **SHOULD NOT** modify kernel/base trees beyond what compiling requires (see Kernel Policy for the alternate-kernel allowance).
+- Genuinely necessary fundamental changes **REQUIRE** lead discussion and a PR first.
+- You **MUST NOT** maintain more than 3 active ROMs at once.
+- You **SHALL NOT** duplicate a ROM another project builder already actively maintains.
+- Leads **MAY** grant a documented exception above 3 ROMs where a builder demonstrates the infrastructure (CI/CD, automated testing, sustained monthly update cadence) to support it. This is a discretionary, revocable exception, not a rule change — the default cap **REMAINS** 3.
+- You **MUST** notify leads before dropping a project.
+- Switching ROMs is **NOT PERMITTED**, except when your current ROM gets an official maintainer elsewhere, or upstream breaks core functionality.
+
+**Release Coordination**
+- Builders **MUST** coordinate major version/QPR release timing with leads and other builders on the same ROM.
+- This exists to prevent overlapping releases — it **MUST NOT** function as a personal veto.
+- Leads **MUST** mediate unresolved scheduling conflicts.
+- Unresolved conflicts **SHALL** default to first-ready-first-released, unless a documented technical reason requires delay.
+
+**Abandonment**
+- A ROM with no update, security patch, or lead communication for 60 consecutive days **IS** considered abandoned.
+- Leads **MUST** attempt to contact the builder before delisting.
+- If unreachable or unresponsive, the ROM **MUST** be pulled from official channels and marked discontinued.
 
 ---
 
 ## OEM Porters
 
-- Kernel and root choices follow the Kernel Policy and Root Policy above.
-- You **MAY** modify boot-adjacent resources (vendor_boot ramdisk, fstab, dtbo, sepolicy) only as far as needed for a bootable, secure result. Nothing beyond that's minimally necessary. Any such change must stay within the Security Baseline and be disclosed in release notes (what changed, why).
-- Don't make unnecessary changes to the vendor partition beyond porting compatibility.
-- Open-source any public work involving the base vendor (private internal builds are out of scope), and credit the base kernel/vendor in release notes.
-- If the OEM kernel/vendor source is broken, incomplete, or withheld beyond what the above allowances can fix, raise it with leads first. Leads **MAY** grant a narrowly-scoped, disclosed exception, but it can never waive the open-source requirement or the Security Baseline.
+- Kernel choice **MUST** follow the Kernel Policy above.
+- Root integration **MUST** follow the Root Policy above.
+- Porters **MAY** modify boot-adjacent resources (vendor_boot ramdisk, fstab, dtbo, sepolicy) only as far as needed for a bootable, secure result.
+- Changes beyond what's minimally necessary **ARE NOT PERMITTED**.
+- Any such change **MUST** meet the Security Baseline.
+- Any such change **MUST** be disclosed in release notes (what changed, why).
+- Porters **SHOULD NOT** make unnecessary changes to the vendor partition beyond porting compatibility.
+- Porters are **REQUIRED** to open-source any public work involving the base vendor. Private internal builds are out of scope.
+- Porters **MUST** credit the base kernel/vendor in release notes.
+- If the OEM kernel/vendor source is broken, incomplete, or withheld beyond what the above allowances can fix, porters **MUST** raise it with leads first.
+- Leads **MAY** grant a narrowly-scoped, disclosed exception.
+- Such an exception **MUST NOT** waive the open-source requirement or the Security Baseline.
 
 ---
 
@@ -97,10 +159,35 @@ Every shipped build, whether ROM or port, canary or stable, rooted or not, **MUS
 
 *Applies to ROM Builders and OEM Porters.*
 
-- Don't publicly push or announce a WIP tree/build until it clears the project's Pre-Release Checklist (a separate, versioned document the leads can update independently; the version in effect at publish time is the one that applies). Private staging, internal testing, or the Trusted Developer pool are fine before that point.
-- This checklist replaces any subjective "stability percentage" as the readiness standard.
-- A separate "canary"/unofficial-testing channel is allowed for earlier builds, if clearly labeled pre-checklist and unsupported, but a canary build is still "shipped" per the Security Baseline (see above), and it is still bound by the Baseline in full.
-- **GPL compliance is not gated by the checklist.** If a canary or any other pre-checklist build is distributed to anyone outside private internal testing, and it contains GPL-covered components (e.g. the kernel), corresponding source **MUST** be made available alongside or promptly after that distribution, checklist status notwithstanding. "Not checklist-ready" is not an excuse to withhold GPL source from a build that's already out the door.
+- You **MUST NOT** publicly push or announce a WIP tree/build until it clears the project's Pre-Release Checklist.
+- Private staging, internal testing, or the Trusted Developer pool **MAY** be used freely before that point.
+- The Checklist is a separate, versioned document the leads **MAY** update independently of this document.
+- The checklist version in effect at publish time is the one that applies to that build.
+- This checklist **REPLACES** any subjective "stability percentage" as the readiness standard.
+- A separate "canary"/unofficial-testing channel **MAY** be offered for earlier builds, if clearly labeled pre-checklist and unsupported — but a canary build is still "shipped" per the Security Baseline, and **REMAINS** bound by it in full.
+- GPL compliance **IS NOT** gated by the checklist. If a canary or any pre-checklist build is distributed outside private internal testing and contains GPL-covered components (e.g., the kernel), corresponding source **MUST** be made available alongside or promptly after that distribution, checklist status notwithstanding.
+
+---
+
+## Conduct Enforcement
+
+*Applies to all Tracen Playgrounds community channels. Enforces the Conduct clause in Global Rules.*
+
+- Moderation **SHOULD** follow a graduated response, calibrated to severity and pattern, not just whatever tool is fastest to reach for.
+- A first, ambiguous, or borderline instance **SHOULD** receive a logged warning only (e.g., a Rose Bot `/warn`), with no restriction applied.
+- A single sharp comment **MUST NOT** be treated the same as a confirmed personal attack — this preserves the Conduct clause's protection for substantive criticism.
+- A confirmed personal attack or instance of mockery, or a repeat warning, **MAY** result in a timed mute (24–72 hours).
+- A repeat offender who reaches the configured warning limit, or a single clearly serious incident (targeted harassment, slurs), **MAY** result in a group-level ban from that specific channel.
+- A group-level ban **REMAINS** reversible on appeal.
+- A federation-wide ban **MUST** be reserved for doxxing, threats, hate speech, ban evasion, or a harassment pattern spanning multiple community channels, or repeated group-level offenses across channels.
+- A federation ban **MUST NOT** be issued unilaterally by a single moderator.
+- A federation ban **REQUIRES** sign-off from at least one lead, before or immediately after the action.
+- Every federation ban **MUST** be logged with a stated reason in a moderator log channel.
+- A federation ban **MAY** be appealed to the leads once, no earlier than 14 days after the ban.
+- Warnings **SHOULD** expire after a defined period (e.g., 30 days), so a person is not held to violations indefinitely.
+- Leads **SHOULD** set and disclose the warning-expiry period.
+- Moderators **SHOULD** distinguish substantive criticism (permitted under Global Rules) from personal attacks or mockery (not permitted) before applying any tier above a warning.
+- When in doubt, moderators **SHOULD** consult a lead rather than escalate unilaterally.
 
 ---
 
@@ -109,8 +196,10 @@ Every shipped build, whether ROM or port, canary or stable, rooted or not, **MUS
 *Applies to all support channels.*
 
 - Testers **SHOULD** disable root, Magisk/KernelSU/Xposed-LSPosed before capturing a logcat, unless the issue is specifically tied to the ROM/port's own root or kernel integration.
-- A report isn't automatically a ROM/port issue just because it was captured on a rooted device; conversely, if it doesn't reproduce with root/modules disabled, it isn't a ROM/port issue. Issues tied to a specific root module/manager app should be redirected to that module's own developers.
-- Include this triage guidance in your support channel's pinned instructions or issue template.
+- A report **MUST NOT** be treated as a ROM/port issue solely because it was captured on a rooted device.
+- If the issue does **NOT** reproduce with root/modules disabled, it **IS NOT** a ROM/port issue.
+- Issues tied to a specific root module/manager app **SHOULD** be redirected to that module's own developers first.
+- Builders/porters **SHOULD** include this triage guidance in their support channel's pinned instructions or issue template.
 
 ---
 
@@ -118,65 +207,79 @@ Every shipped build, whether ROM or port, canary or stable, rooted or not, **MUS
 
 *Adapted from the [PrismLauncher Contributing Guide][^2] and the [Linux kernel coding-assistants policy][^3].*
 
-- Don't post raw AI output in comments or community channels. Feeding a prompt to an AI and posting the result, unedited and unverified, isn't acceptable.
+- You **MUST NOT** post raw AI output in comments or community channels.
+- Feeding a prompt to an AI and posting the result, unedited and unverified, **IS NOT ACCEPTABLE**.
 - You **MUST** understand every AI-assisted change well enough to explain why it's correct.
-- Only the human submitter may certify authorship (`Signed-off-by`). AI agents never add this tag. Disclose AI assistance in commits via `Assisted-by: AGENT_NAME:MODEL_VERSION`.
-- You must be able to assert in good faith that the human-authored portion is your own, original, copyright-eligible work. Substantially unedited AI output can't be represented as license-compliant.
-- Leads may reject undisclosed AI-generated contributions, or ones where the submitter can't demonstrate understanding. This includes cases discovered after the fact: if AI-assisted code breaks the build and the submitter cannot diagnose or explain the failure, leads **MAY** revert the commit and revoke commit privileges.
+- Only the human submitter **MAY** certify authorship (`Signed-off-by`). AI agents **MUST NOT** add this tag.
+- You **MUST** disclose AI assistance in commits via `Assisted-by: AGENT_NAME:MODEL_VERSION`.
+- You **MUST** be able to assert in good faith that the human-authored portion is your own, original, copyright-eligible work.
+- Substantially unedited AI output **MUST NOT** be represented as license-compliant.
+- Leads **MAY** reject undisclosed AI-generated contributions, or ones where the submitter can't demonstrate understanding.
+- This **INCLUDES** cases discovered after the fact: if AI-assisted code breaks the build and the submitter cannot diagnose or explain the failure, leads **MAY** revert the commit and revoke commit privileges.
 
 ---
 
 ## Blacklisted ROMs
 
-Never build or ship a ROM meeting the Standing Blacklist Criteria below, or any ROM named in the project's maintained [`BLACKLIST.md`][^4]. The default position is always that a ban remains. See Blacklist Reform Process to challenge it.
+- You **MUST NOT** build or ship a ROM meeting the Standing Blacklist Criteria below.
+- You **MUST NOT** build or ship any ROM named in the project's maintained `BLACKLIST.md`.[^4]
+- The default position is always that a ban remains — see Blacklist Reform Process to challenge it.
 
-**Standing Blacklist Criteria**: a ROM may be evaluated for blacklisting if it uses copyleft code while refusing corresponding source disclosure for closed internal testing; commits donation/sponsorship misrepresentation; or engages in sustained harassment tied to the project.
+**Standing Blacklist Criteria** — a ROM **MAY** be evaluated for blacklisting if it:
+- Uses copyleft code while refusing corresponding source disclosure for closed internal testing;
+- Commits donation/sponsorship misrepresentation;
+- Engages in sustained harassment tied to the project.
 
-The specific list of currently banned ROMs, and the evidence behind each entry, is maintained separately in [`BLACKLIST.md`][^4] so it can be updated without revising these core guidelines. Leads **MAY** add or remove entries there under the Standing Blacklist Criteria and Blacklist Reform Process defined here; the criteria and process themselves still require a full guidelines revision to change.
+The specific list of currently banned ROMs, and the evidence behind each entry, is maintained separately in `BLACKLIST.md` so it can be updated without revising these core guidelines. Leads **MAY** add or remove entries there under the Standing Blacklist Criteria and Blacklist Reform Process defined here; the criteria and process themselves still **REQUIRE** a full guidelines revision to change.
 
 ---
 
 ## Discouraged ROMs
 
-**LunarisAOSP, InfinityX, AfterlifeOS**: not recommended for builds using our trees, due to misalignment with this project's design/UX philosophy (a standards call, not an ethical one). No debugging support is provided for issues arising from them; builders who proceed take on full support responsibility themselves.
+**LunarisAOSP, InfinityX, AfterlifeOS** are **NOT RECOMMENDED** for builds using our trees, due to misalignment with this project's design/UX philosophy — a standards call, not an ethical one. No debugging support **SHALL** be provided for issues arising from them; builders who proceed **MUST** assume full support responsibility themselves.
 
 ---
 
 ## Trusted Developer Policy
 
-- Granted solely by leads, case-by-case, based on the quality/impact of merged contributions (not volume; many trivial PRs don't qualify). Exempts a developer from device ownership, but not from accountability.
-- Without owning the device, you **MUST** coordinate with at least one reliable, physically-verified, named (in release notes) tester before release, and mark the build as untested by you on physical hardware.
-- Releasing without a verified tester is treated as blind building, and is grounds for immediate status revocation.
-- Leads may revoke status any time, without a community vote, if quality, conduct, or testing standards decline.
+- Trusted Developer status **MAY** exempt a developer from the device-ownership requirement.
+- It **IS** granted solely by leads, case by case, based on the quality/impact of merged contributions, not volume.
+- A high number of trivial PRs **SHALL NOT** qualify.
+- Exemption from ownership **IS NOT** exemption from accountability.
+- Without owning the device, you **MUST** coordinate with at least one reliable, physically-verified tester before release.
+- That tester **MUST** be named in the release notes.
+- The build **MUST** be marked as untested by the developer on physical hardware.
+- Releasing without a verified tester is treated as blind building and **IS** grounds for immediate status revocation.
+- Leads **MAY** revoke status at any time, without a community vote, if quality, conduct, or testing standards decline.
 
 ---
 
 ## Blacklist Reform Process
 
-Default position: the ban remains; burden of proof is on the project seeking reinstatement.
+The default position is always that the ban remains; the burden of proof is on the project seeking reinstatement.
 
-1. **Eligibility**: leads confirm the original ban reason has been concretely addressed. If not, the process stops here.
-2. **Initiation**: only a lead, or a petition from 15+ active builders (merged PR in the last 6 months), can open a reform vote.
-3. **Waiting period**: 12 months minimum since the ban; a failed vote blocks new votes for 6 months.
-4. **Voter eligibility**: active builders and leads only.
-5. **Threshold**: two-thirds supermajority required; simple majority isn't enough.
-6. **Probation**: reinstated projects get 6 months probation. Any repeat misconduct means immediate permanent re-blacklisting; leads may act unilaterally during probation.
+1. **Eligibility** — Leads **MUST** confirm the original ban reason has been concretely addressed. If not, the process **SHALL** stop here.
+2. **Initiation** — Only a lead, or a petition from 15+ active builders (merged PR in the last 6 months), **MAY** open a reform vote.
+3. **Waiting period** — A minimum of 12 months **MUST** have passed since the ban. A failed vote **SHALL** block new votes for 6 months.
+4. **Voter eligibility** — Only active builders and leads **MAY** vote.
+5. **Threshold** — A two-thirds supermajority **IS REQUIRED**. A simple majority **SHALL NOT** be sufficient.
+6. **Probation** — Reinstated projects **MUST** enter 6 months probation. Any repeat misconduct **SHALL** result in immediate permanent re-blacklisting; leads **MAY** act unilaterally during probation.
 
 ---
 
 ## Platform Trajectory
 
-*(Informational, non-binding.)* Some rules here (like requiring unrooted, Play Integrity-compliant builds) assume today's Android platform rules. If Google's device-verification requirements change enough to break that assumption, leads may revisit the affected rules. This note changes nothing by itself.
+> **Note (informational, non-binding):** Some rules here — like requiring unrooted-by-default AOSP builds — assume today's Android platform rules. If Google's device-verification requirements change enough to break that assumption, leads **MAY** revisit the affected rules. This note changes nothing by itself.
 
 ---
 
-Non-compliance may result in removal from development channels and permanent loss of repository access. When in doubt, ask the leads before you compile.
+Non-compliance **MAY** result in removal from development channels and permanent loss of repository access. When in doubt, ask the leads before you compile.
 
 ---
 
 ## References
 
-[^1]: cyberknight777, "Why No TWRP on Modern Devices": http://cyberknight777.dev/posts/2025/12/why-no-twrp-on-modern-devices
+[^1]: cyberknight777, "Why No TWRP on Modern Devices": https://cyberknight777.dev/posts/2025/12/why-no-twrp-on-modern-devices/
 [^2]: PrismLauncher `CONTRIBUTING.md`: http://github.com/PrismLauncher/PrismLauncher/blob/develop/CONTRIBUTING.md
 [^3]: Linux kernel documentation, "Coding-assistants": http://kernel.org/doc/html/next/process/coding-assistants.html
 [^4]: `BLACKLIST.md`, maintained separately; see project repository root.
