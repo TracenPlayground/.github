@@ -27,22 +27,25 @@ Each entry is rated on two independent axes, since a ROM's danger to the people 
 ## Currently Banned
 
 ### Project Elixir
-**Severity:** User: Critical · Community: High. *(Direct data/device harm to users via the wipe trigger; concealment of source from the project's own maintainers is a serious but single-incident breach of collaborative trust, not an established multi-incident pattern.)*
+**Severity:** User: Critical · Community: High.
+*(Direct data/device harm to users via the wipe trigger; concealment of source from the project's own maintainers is a serious but single-incident breach of collaborative trust, not an established multi-incident pattern.)*
 
 Hidden ADB-triggered wipe (internal storage, external storage, eSIM) targeting users who bypass paid features; source deliberately hidden from its own maintainers. Banned by XDA Forums.[^1]
 
 ### EvolutionX
-**Severity:** User: Low · Community: High. *(No confirmed direct harm to end users; the donation-fraud claim remains unconfirmed. Community severity now reflects two independently-standing confirmed incidents, the `bbd156f` kanging case and the archived harassment incident below, though not yet an established multi-incident pattern, which would push it to Critical.)*
+**Severity:** User: Low · Community: High.
+*(No confirmed direct harm to end users; the donation-fraud claim remains unconfirmed. Community severity now reflects two independently-standing confirmed incidents, the `bbd156f` kanging case and the archived harassment incident below, though not yet an established multi-incident pattern, which would push it to Critical.)*
 
 - A documented pattern of uncredited code cherry-picking ("kanging") and disputed donation practices.[^2]
 - **Verified instance:** Evolution-X's `packages_apps_LMOFreeform` commit `bbd156f`[^4] reproduces the combined code changes of two separate Pixelify-AOSP commits by `kenway214`[^5][^6], by diff comparison, credited only to the Evolution-X committer, with no reference to the original author or repository.
 - **Evidentiary caveat on the "pattern" source:** the general documentation source (`joeyhuab.com`)[^2] is also cited by DerpFest's own GitHub organization as supporting material in DerpFest's separate, ongoing dispute with EvolutionX (see DerpFest entry below). Separately, the same account (`joeyhuab`) is itself the committer on the Evolution-X repository involved in the verified `bbd156f` incident above.[^4] For both reasons, `joeyhuab.com` should not be treated as an independent, disinterested source for the broader "pattern" claim, even though the `bbd156f` diff comparison stands on its own regardless of who reported it.
 - A previously-cited "GPL violation" commit has been removed from this entry after inspection showed it does not demonstrate a violation (it adds correct Apache-2.0/SPDX headers).
-- **Confirmed:** an archived capture of `packages_apps_Evolver` commit `7104505`[^7] contains a squash of numerous "Evolver" feature commits, including a personal attack on DerpFest's owner (Alexander Brunswig) by name embedded directly in the commit message. This commit no longer resolves on live GitHub, consistent with a later history rewrite. The capture was manually verified against archive.org directly (this tooling cannot reach archive.org itself, see [^7]). This speaks to the "sustained harassment" ground in the Standing Blacklist Criteria rather than to code provenance, and is a separate matter from the `bbd156f` kanging evidence above.
+- **Confirmed:** an archived capture of `packages_apps_Evolver` commit `7104505`[^7] contains a squash of numerous "Evolver" feature commits, including a personal attack on DerpFest's owner (Alexander Brunswig) by name embedded directly in the commit message. This commit no longer resolves on live GitHub, consistent with a later history rewrite. The capture was manually verified against archive.org directly[^7]. This speaks to the "sustained harassment" ground in the Standing Blacklist Criteria rather than to code provenance, and is a separate matter from the `bbd156f` kanging evidence above.
 - **Status:** two incidents are now independently confirmed (`bbd156f` kanging, and the `7104505` harassment incident). The general "pattern" and donation-fraud claims sourced only to `joeyhuab.com` still need corroboration from a source without the conflicts noted above before this entry's broader claims can be considered as solid as its two confirmed incidents.
 
 ### DerpFest
-**Severity:** User: Low · Community: High. *(No direct harm to end users; community severity reflects multiple independently-corroborated elements, confirmed plagiarism, a public closed-source retaliation threat, and self-published combative conduct, though not an established pattern across multiple separate incidents, which would push it to Critical.)*
+**Severity:** User: Low · Community: High.
+*(No direct harm to end users; community severity reflects multiple independently-corroborated elements, confirmed plagiarism, a public closed-source retaliation threat, and self-published combative conduct, though not an established pattern across multiple separate incidents, which would push it to Critical.)*
 
 **Disclosure:** Halcyon, the project referenced throughout this entry as the party DerpFest allegedly copied, is the lead developers' maintained ROM. The file- and screenshot-level evidence below is independently checkable by anyone regardless of that fact, but readers should weigh the framing accordingly, consistent with this document's standard of flagging non-neutral sourcing (see the `joeyhuab.com` caveat under EvolutionX).
 
@@ -82,6 +85,6 @@ Hidden ADB-triggered wipe (internal storage, external storage, eSIM) targeting u
 [^4]: Evolution-X/packages_apps_LMOFreeform@bbd156f, "LMOFreeform: Fix build on Android 17" (committed by joeyhuab): https://github.com/Evolution-X/packages_apps_LMOFreeform/commit/bbd156fd62965346c26ba71cb9139489745d8f2c
 [^5]: Pixelify-AOSP/packages_apps_LMOFreeform@3752f6c, "LMPFreeform: Cleanup unused task listener methods" (kenway214): https://github.com/Pixelify-AOSP/packages_apps_LMOFreeform/commit/3752f6c8bf2e9f7f0d32cb9f821e998b5950805e
 [^6]: Pixelify-AOSP/packages_apps_LMOFreeform@c15d98c, "LMOFreeform: Update virtual display creation and display configuration signature" (kenway214): https://github.com/Pixelify-AOSP/packages_apps_LMOFreeform/commit/c15d98c05171544b3077deb648728b344069212f
-[^7]: Archived capture, Evolution-X/packages_apps_Evolver@7104505 (squash commit, "[SQUASH] Evolver: Refactor for A14 QPR2"): https://web.archive.org/web/20240524151758/https://github.com/Evolution-X/packages_apps_Evolver/commit/7104505017b02b7020bab642a4d396d72dad43b7. **Manually verified** by @naokoshoto directly against the archive.org capture (this tooling cannot reach archive.org to independently re-check it); the corresponding commit hash no longer resolves on live GitHub, consistent with a later history rewrite.
+[^7]: Archived capture, Evolution-X/packages_apps_Evolver@7104505 (squash commit, "[SQUASH] Evolver: Refactor for A14 QPR2"): https://web.archive.org/web/20240524151758/https://github.com/Evolution-X/packages_apps_Evolver/commit/7104505017b02b7020bab642a4d396d72dad43b7. **Manually verified** by @naokoshoto directly against the archive.org capture; the corresponding commit hash no longer resolves on live GitHub, consistent with a later history rewrite.
 
 [guidelines]: ./GUIDELINES.md
